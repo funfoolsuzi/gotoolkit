@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
-	"strings"
 )
 
 const configf string = "config.json"
@@ -64,23 +63,3 @@ func GetConfigMap(path string) *map[string]Configuration {
 	}
 	return &envs
 }
-
-// GetSecret will retrieve the secret value from OS config variables and return it.
-func GetSecret() []byte {
-	secret := ""
-	for _, ev := range os.Environ() {
-		part := strings.Split(ev, "=")
-		if part[0] == "FFSZ_JWT_SECRET" {
-			secret = part[1]
-			break
-		}
-	}
-	if len(secret) <= 0 {
-		panic(`Failed to find config variable named "FFSZ_JWT_SECRET"`)
-	}
-	return []byte(secret)
-}
-
-/**
-1. read config file.
-**/
